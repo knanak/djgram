@@ -41,3 +41,4 @@ def signup(request):
                 return HttpResponseRedirect(reverse('posts:index'))
         
         return render(request, 'users/main.html')
+        return render(request, 'users/signup.html', {'form':form})

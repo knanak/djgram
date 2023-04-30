@@ -1,8 +1,14 @@
+{% extends 'users/base.html' %}
+
+{% block title %}signup{% endblock title %}
+
+{% block content %}
 <form action="{% url 'users:signup' %}" method="post">
     {% csrf_token%}
     {%for f in form%}
     {{f.errors}}
-    {{f.label_tag}} {{f}}
+    {{f}}
     {%endfor%}
     <input type='submit' value='sign up'>
 </form>
+{% endblock content %}

@@ -1,7 +1,12 @@
+{% extends 'users/base.html' %}
 
+{% block title %} main {% endblock title %}
+
+{% block content%}
 <form action="{% url 'users:main' %}" method="POST">
     {% csrf_token %}
     <input type="input" name="username" placeholder="username">
     <input type="input" name="pwd" placeholder="pwd">
     <input type="submit" value="Login">
 </form>
+{% endblock content%}

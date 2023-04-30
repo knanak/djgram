@@ -45,11 +45,15 @@ class SignUpForm(django_forms.ModelForm):
     class Meta:
         model=User
         fields=['email', 'name', 'username', 'password']
-        labels={'email' : '이메일', 
-                'name': '이름', 
-                'username': '닉네임', 
-                'password' : '비밀번호'}
-        widgets={'password':django_forms.PasswordInput(),}
+        # labels={'email' : '이메일', 
+        #         'name': '이름', 
+        #         'username': '닉네임', 
+        #         'password' : '비밀번호'}
+        widgets={'email':django_forms.TextInput(attrs={'placeholder':'이메일주소'}),
+                 'name':django_forms.TextInput(attrs={'placeholder':'이름'}),
+                 'username':django_forms.TextInput(attrs={'placeholder':'닉네임'}),
+                 'password':django_forms.PasswordInput(attrs={'placeholder':'비밀번호'}),
+                }
 
     def save(self, commit=True):
         user=super().save(commit=False)
