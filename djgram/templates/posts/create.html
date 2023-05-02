@@ -1,1 +1,12 @@
-포스트생성을 할까요?
+{% extends 'posts/base.html' %}
+
+{% block content %}
+<div class="create">
+    <form action="{% url 'posts:post_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Create">
+    </form>
+</div>
+{% endblock content %}
+

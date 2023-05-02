@@ -22,7 +22,7 @@ class TestPosts(TestCase):
         login=self.client.login(username='nana', password='123')
         self.assertTrue(login)
 
-        url=reverse('posts:post_create')
+        url=reverse('posts:post_create') 
         image = SimpleUploadedFile('test.jpg', b'sth')      
         response=self.client.post(url, {"image":image, "caption": "test"})
 
@@ -32,7 +32,7 @@ class TestPosts(TestCase):
 
     def test_post_posts_notLogin(self):
         
-        url=reverse('posts:post_create')
+        url=reverse('users:post_create')
         image = SimpleUploadedFile('test.jpg', b'sth')      
         response=self.client.post(url, {"image":image, "caption": "test"})
 
