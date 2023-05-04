@@ -1,16 +1,66 @@
 {% extends 'posts/base.html' %}
+{% load static %}
+
 
 {% block content %}
+
     {% for post in posts %}
-        {{post.author.id}}
-        {{post.author.username}}
-        <br>
-        {{post.id}}
-        {{post.caption}}
-        <br>
-        {%for cmt in post.comment_post%}
-            {{cmt.content}}
-        {%endfor%}
+    <div class="post_box">
+        <div class="header">
+            <div class="user_profile">
+                {% if post.author.profile_photo != None%}
+                    {{post.author.profile_photo}}
+                {% else %}
+                    <img src="{% static 'images/posts/non_profile.png'%}" alt="no_profile">
+                {%endif%}
+            <div class="username">{{post.author.username}}</div>
+            </div>  
+
+            {%if user.id == post.author.id %}
+            <div class="icon">
+                <a href="{%url 'posts:post_update' post.id %}">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>
+
+                <i class="fa-solid fa-trash"></i>
+
+            </div>
+            {%endif%}
+        </div>
+
+        <div class="post_img">
+            <img src= "{{post.image}}">
+        </div>
+
+        <i class="fa-regular fa-heart"></i>
+        <div class="desc_box">
+            <div class="image_desc">
+                {{post.author.username}}
+                {{post.caption}}
+            </div>
+            <br><br>
+
+            <div class="comments">
+                {%for cmt in post.comment_post%}
+                    {{cmt.author.username}} : {{cmt.contents}} 
+                    {%if user.id == cmt.author.id%}
+                        <a href="{%url 'posts:comment_delete' cmt.id %}">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    {% endif %}
+                    <br>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="comment_input">
+            <form action="{%url 'posts:comment_create' post.id %}" method="post">
+                {%csrf_token%}
+                {{comment_form}}
+                <input type="submit" value="Post">
+            </form>
+        </div>
+    </div>
+    <br><br>
     {% endfor %}
 
 {% endblock content %}
