@@ -22,7 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
     # image = serializers.ImageField(use_url=True)
     class Meta :
         model=models.Post
-        fields=("id", "image", "caption", "author", "comment_post",)
+        fields=("id", "image", "caption", "author", "comment_post", "image_likes")
 
 
 

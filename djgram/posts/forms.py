@@ -13,7 +13,7 @@ class UpdatePostForm(forms.ModelForm):
         fields=['caption']
         
 class CommentForm(forms.ModelForm):
-    contents=forms.CharField(widget=forms.Textarea, label='')
+    contents=forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'cols':78,}), label='')
     class Meta:
         model=Comment
         fields=['contents']

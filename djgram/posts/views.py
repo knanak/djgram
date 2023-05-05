@@ -12,7 +12,7 @@ def index(request):
         if request.user.is_authenticated :
             user=get_object_or_404(user_model, pk=request.user.id)
             following = user.following.all()
-            posts=models.Post.objects.filter(Q(author__in = following) | Q(author=user))
+            posts=models.Post.objects.filter(Q(author__in = following) | Q(author=user)).order_by('-create_date')
             comment_form=CommentForm()
             serializer=serializers.PostSerializer(posts, many=True)
             return render(request, 'posts/main.html', 
@@ -59,7 +59,14 @@ def post_update(request, post_id):
         if request.method == 'GET':
             form=UpdatePostForm(instance=post)
             return render(request, 'posts/post_update.html', {'form':form, 'post':post})
-            
+        
+        elif request.method == 'POST':
+            form=UpdatePostForm(request.POST)
+            if form.is_valid():
+                post.caption=form.cleaned_data['caption']
+                post.save()
+            return redirect(reverse('posts:index'))
+
     else : redirect(reverse('users:main'))
 
 def comment_create(request, post_id):

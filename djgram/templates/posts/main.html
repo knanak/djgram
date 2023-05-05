@@ -32,7 +32,15 @@
             <img src= "{{post.image}}">
         </div>
 
-        <i class="fa-regular fa-heart"></i>
+        <button id="like-button-{{post.id}}" onclick="likeClick(this.id)">
+            {%if user.id in post.image_likes %}
+                <i class="fa-solid fa-heart"></i>
+            {%else%}
+                <i class="fa-regular fa-heart"></i>
+            {%endif%}
+        </button>
+
+
         <div class="desc_box">
             <div class="image_desc">
                 {{post.author.username}}
