@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, re
 from djgram.users.models import User as user_model
 from django.db.models import Q
 from django.urls import reverse
+from django.http import JsonResponse
 
 from . import models, serializers
 from .forms import *
@@ -69,6 +70,26 @@ def post_update(request, post_id):
 
     else : redirect(reverse('users:main'))
 
+def post_like(request, post_id):
+    response_body={'result':''}
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            post=get_object_or_404(models.Post, pk=post_id)
+            existed_user=post.image_likes.filter(pk=request.user.id).exists()
+
+            if existed_user :
+                post.image_likes.remove(request.user)
+                response_body['result']='dislike'
+            
+            else :
+                post.image_likes.add(pk=request.user)
+                response_body['result']='like'
+
+            post.save()
+            return JsonResponse(status=200, data=response_body)
+    else : return JsonResponse(status=403, data=response_body)
+
+    
 def comment_create(request, post_id):
     if request.user.is_authenticated:
         post=get_object_or_404(models.Post, pk=post_id)
